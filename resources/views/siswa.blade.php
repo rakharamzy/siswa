@@ -101,7 +101,7 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Foto Siswa:</label>
-    <img id="preview-image-before-upload" alt="preview foto" style="max-height: 200px;">
+    <img id="preview-image-before-upload" src="" alt="preview foto" style="max-height: 200px;">
     <br><input class="form-control" type="file" name="foto" id="image">
   </div>
 </div>
@@ -197,8 +197,9 @@
   </div>
   @endforeach
   {{-- <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script> --}}
+  
 
-  <script type="text/javascript">
+  {{-- <script type="text/javascript">
 
     $(document).ready(function (e) {
       $('#image').change(function(){
@@ -210,8 +211,24 @@
       });
       
     });
-    </script>
-    <script type="text/javascript">
+    </script> --}}
+
+    <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
+
+    <script>
+      $(document).ready(function(e) {
+        $('#image').change(function() {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            $('#preview-image-before-upload').attr('src', e.target.result);
+          }
+            reader.readAsDataURL(this.files[0]);
+        }
+        )
+    });
+</script>
+
+    <script>
 
       $(document).ready(function (er) {
         $('#imageUbah').change(function() {
