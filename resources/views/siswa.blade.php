@@ -7,7 +7,7 @@
         <input type="text" name="cari" class="form-control w-75 d-
   inline" id="search" placeholder="Masukkan NIS Siswa">
         <button type="submit" class="btn btn-success">Cari</button> @2023 RPL-RAKSKUY
-      </form>
+      </form>r
     </div>
   </div>
   <div class="container">
@@ -101,7 +101,8 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Foto Siswa:</label>
-    <input class="form-control" type="file" name="foto">
+    <img id="preview-image-before-upload" alt="preview foto" style="max-height: 200px;">
+    <br><input class="form-control" type="file" name="foto" id="image">
   </div>
 </div>
 <div class="modal-footer">
@@ -120,10 +121,10 @@
     <div class="modal-content">
       <div class="modal-header bg-danger text-white">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data Siswa</h1>
-        <button type="button" class="btn-close" data-bs- dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h4 class="text-center">Apakah anda yakin menghapus data siswa <span>
+        <h4 class="text-center">Apakah anda yakin menghapus data siswa ini bro<span>
             <font color="blue">{{$ds->nama}}
             </font>
           </span>
@@ -134,61 +135,6 @@
           <button type="submit" class="btn btn-danger">Hapus!</button>
         </form>
       </div> 
-    </div>
-  </div>
-</div>
-@endforeach
-@foreach($data as $ds)
-<div class="modal fade" id="tambahsiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Data siswa</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-      <form method="post" action="/{{$ds->id}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-<div class="mb-3">
-  <label class="form-label">NIS</label>
-  <input type="text" class="form-control" name="nis" placeholder="masukkan nis siswa">
-</div>
-<div class="mb-3">
-  <label class="form-label">Nama</label>
-  <input type="text" class="form-control" name="nm" placeholder="masukkan nama siswa">
-</div>  <div class="mb-3">
-  <label class="form-label">Kelas</label>
-  <input type="text" class="form-control" name="kls" placeholder="masukkan kelas">
-</div>
-<div class="mb-3">
-  <label class="form-label">Jenis Kelamin </label>
-    <select class="form-select" name="jkl">
-      <option value="{{$ds->jenis_kelamin}}" selected>{{$ds->jenis_kelamin}}</option>
-      <option value="laki-laki">Laki-Laki</option>
-      <option value="prempuan">Perempuan</option>
-    </select>
-</div>
-<div class="mb-3">
-  <label class="form-label">Telp</label>
-  <input type="text" class="form-control" name="tlp" placeholder="masukkan no. telp siswa">
-</div>
-<div class="mb-3">
-  <label class="form-label">Alamat Domisili</label>
-  <textarea class="form-control" name="alamat" rows="3"></textarea>
-</div>
-<div class="mb-3">
-  <label class="form-label">Foto Siswa:</label>
-  <input class="form-control" type="file">
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">tutup</button>
-<button type="submit" class="btn btn-primary">okee</button>
-</div>
-</form>
-
     </div>
   </div>
 </div>
@@ -204,7 +150,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="form" action="/{{$ds->id}}" method="POST" enctype="multipart/form-data"> @csrf @method('PUT') 
+        <form class="form" action="/{{$ds->id}}" method="POST" enctype="multipart/form-data"> 
+          @csrf @method('PUT') 
           <div class="mb-3">
             <label class="form-label">NIS</label>
             <input type="text" class="form-control" name="nis" value="{{$ds->nis}}">
@@ -235,11 +182,13 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Foto Siswa:</label>
-            <input class="form-control" type="file" name="foto" value="">
+            <img id="preview-foto" alt="preview foto" style="max-height: 200px;">
+            <br>
+            <input class="form-control" type="file" name="foto" id="imageUbah" onchange="">
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data- bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
     </form>
@@ -247,4 +196,34 @@
   </div>
   </div>
   @endforeach
-   @endsection
+  {{-- <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script> --}}
+
+  <script type="text/javascript">
+
+    $(document).ready(function (e) {
+      $('#image').change(function(){
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          $('#preview-image-before-upload').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+      });
+      
+    });
+    </script>
+    <script type="text/javascript">
+
+      $(document).ready(function (er) {
+        $('#imageUbah').change(function() {
+          let reader2 = new FileReader();
+          reader2.onload =(er) => {
+            $('#preview-foto').attr('src', er.target.result);
+          }
+          reader2.readAsDataURL(this.fies[0]);
+        });
+      });
+    </script>
+
+
+
+@endsection
